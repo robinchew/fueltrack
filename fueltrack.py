@@ -4,7 +4,7 @@ from decimal import Decimal
 
 import urllib.request
 import json
-import sys
+import os
 
 ULP = 1
 PULP = 2 # Premium ULP (95)
@@ -69,7 +69,7 @@ def table(content):
 
 def tr(content, alt=False):
     attr = ' style="background:#ffdddd"' if alt else ''
-    return f'<tr{alt}>{content}</tr>'
+    return f'<tr{attr}>{content}</tr>'
 
 def td(content):
     return f'<td>{content}</td>'
@@ -92,7 +92,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(fuel_table(PULP).encode())
 
 if __name__ == '__main__':
-    host, port = sys.argv[1:3]
+    host, port = os.environ['HOST'], os.environ['PORT']
     print("Server started http://%s:%s" % (host, port))
     web_server = HTTPServer((host, int(port)), MyServer)
 
